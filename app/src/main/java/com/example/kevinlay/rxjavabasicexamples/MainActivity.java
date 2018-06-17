@@ -9,8 +9,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.kevinlay.rxjavabasicexamples.observables.CompletableClass;
 import com.example.kevinlay.rxjavabasicexamples.observables.SingleClass;
 
+import io.reactivex.Completable;
 import io.reactivex.Single;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -54,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 singleClass.getInfo().subscribe(this::showToast);
                 break;
             case "Completable":
+                CompletableClass completableClass = new CompletableClass();
+                completableClass.getInfo()
+                        .subscribe(() -> showToast("CompletableDone"),
+                                    e -> showToast(e.toString()));
                 break;
             case "Maybe":
                 break;
