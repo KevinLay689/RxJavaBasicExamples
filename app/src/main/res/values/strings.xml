@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RxJavaBasicExamples</string>
+
+    <string-array name="rx_array">
+        <item>Single</item>
+        <item>Completable</item>
+        <item>Maybe</item>
+        <item>Flowable</item>
+        <item>Concurrency with rx</item>
+    </string-array>
+</resources>
