@@ -2,16 +2,22 @@ package com.example.kevinlay.rxjavabasicexamples;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
-
+import com.example.kevinlay.rxjavabasicexamples.networking.github.GithubModel;
+import com.example.kevinlay.rxjavabasicexamples.networking.github.GithubNetwork;
 import com.example.kevinlay.rxjavabasicexamples.observables.CompletableClass;
 import com.example.kevinlay.rxjavabasicexamples.observables.MaybeClass;
 import com.example.kevinlay.rxjavabasicexamples.observables.SingleClass;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -44,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    private void log(String msg) {
+        Log.i("RxJavaStuff", msg);
+    }
+
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
@@ -63,8 +73,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 maybeClass.getInfo().subscribe( name -> showToast(name + "done"),
                                                 error -> showToast(error.toString()));
                 break;
-        }
 
+            case "RxJava":
+                GithubNetwork githubNetwork = new GithubNetwork();
+                CompositeDisposable disposable = new CompositeDisposable();
+                disposable.add(githubNetwork.getInfo("kevinlay689")
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(items -> {
+                                showToast("Number of repos: " + items.size());
+                                for(GithubModel user: items) {
+                                    log(user.getName() + "id is:" + user.getId());
+                                }
+                            }, error -> log(error.toString())));
+                break;
+        }
     }
 
     @Override

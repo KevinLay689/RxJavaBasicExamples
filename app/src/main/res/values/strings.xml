@@ -6,6 +6,6 @@
         <item>Completable</item>
         <item>Maybe</item>
         <item>Flowable</item>
-        <item>Concurrency with rx</item>
+        <item>RxJava</item>
     </string-array>
 </resources>
