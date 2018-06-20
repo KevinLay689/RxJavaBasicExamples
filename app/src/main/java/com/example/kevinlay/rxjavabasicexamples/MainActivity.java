@@ -10,10 +10,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.kevinlay.rxjavabasicexamples.observables.CompletableClass;
+import com.example.kevinlay.rxjavabasicexamples.observables.MaybeClass;
 import com.example.kevinlay.rxjavabasicexamples.observables.SingleClass;
-
-import io.reactivex.Completable;
-import io.reactivex.Single;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -48,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        //showToast(adapterView.getItemAtPosition(i).toString());
 
         switch (adapterView.getItemAtPosition(i).toString()) {
             case "Single":
@@ -58,10 +55,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case "Completable":
                 CompletableClass completableClass = new CompletableClass();
                 completableClass.getInfo()
-                        .subscribe(() -> showToast("CompletableDone"),
+                        .subscribe( () -> showToast("CompletableDone"),
                                     e -> showToast(e.toString()));
                 break;
             case "Maybe":
+                MaybeClass maybeClass = new MaybeClass("kevin2201001");
+                maybeClass.getInfo().subscribe( name -> showToast(name + "done"),
+                                                error -> showToast(error.toString()));
                 break;
         }
 
